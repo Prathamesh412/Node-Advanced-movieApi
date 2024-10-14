@@ -1,6 +1,7 @@
 import { getAllParticipant, createParticipantsByName, getParticipantById, updateParticipantsbyId, deleteParticipant } from "../repo/participantsRepo.js";
 
 import {getDataFromRedis,setDataToRedis,invalidateKey} from "../lib/redisHelper.js"
+import { logMsg } from "../lib/logProducer.js";
 
 const Redis_Key = 'participant';
 const Redis_Cache = 3600;
@@ -49,11 +50,14 @@ export const getParticipant = async(req,res)=>{
 
 export const CreateParticipants = async(req,res) =>{
 
-    const {age,role,name} = req.body
-    const result = await createParticipantsByName(name,age,role);
-    await invalidateKey(Redis_Key)
+    const logId = req.logId
 
-    res.status(200).json(result)
+    const {age,role,name} = req.body
+    logMsg(logId,'creating Participants',{age,role,name});
+    const result = await createParticipantsByName(name,age,role, logId);
+    await invalidateKey(Redis_Key, logId)
+
+    res.status(200).json(result, logId)
 }
 
 export const UpdateParticipant = async(req,res) =>{

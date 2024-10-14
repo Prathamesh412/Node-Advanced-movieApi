@@ -1,5 +1,6 @@
 import mongoose from "mongoose";
 import Participant from "./Schema/participants.schema.js";
+import { logMsg } from "../lib/logProducer.js";
 
 export const getAllParticipant = async () => {
   const results = await Participant.find();
@@ -21,11 +22,13 @@ export const getParticipantById = async (id) => {
   return result;
 };
 
-export const createParticipantsByName = async (name, age, role) => {
+export const createParticipantsByName = async (name, age, role, logId) => {
+  logMsg(logId,`creating participants in the repository`, {age,role,name})
   const newParticipant = new Participant({ name, age, role });
 
   const result = await newParticipant.save();
 
+  logMsg(logId,`Success in creating participants in the repository`, result)
   return result;
 };
 

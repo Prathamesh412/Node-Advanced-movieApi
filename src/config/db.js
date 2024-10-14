@@ -11,7 +11,7 @@ const connect = async(dbName) =>{
         connectionString = connectionString.replace(`{1}`, dbName)
 
         await mongoose.connect(connectionString);
-        console.log("DB connection")
+        console.log("DB connection established")
     } catch (error) {
         console.log("Could not connect to Mongo" ,error?.message)
         process.exit()
