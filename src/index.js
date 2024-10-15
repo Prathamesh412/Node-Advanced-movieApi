@@ -11,7 +11,7 @@ import user from "./controllers/userController.js"
 import { connectRabbitMQ } from "./config/rabbitmq.js";
 import uid from "tiny-uid";
 import { logMsg } from "./lib/logProducer.js";
-
+import { checkHealthStatus } from "./services/healthService.js";
 
 await connect(DB_name);
 
@@ -29,6 +29,8 @@ app.use((req, res, next) => {
 app.use("/participants", participants)
 app.use("/movies", movie)
 app.use("/user", user)
+
+app.get("/health", checkHealthStatus)
 
 app.get('/ping', (req, res) => {
     const logId = req?.logId ?? '';

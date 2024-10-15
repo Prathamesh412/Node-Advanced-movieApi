@@ -10,7 +10,9 @@
     "jsonwebtoken": "^9.0.2",
     "mongoose": "^8.7.0",
     "node-cron": "^3.0.3",
-    "tiny-uid": "^1.1.2"
+    "swagger-ui-express": "^5.0.1",
+    "tiny-uid": "^1.1.2",
+    "yamljs": "^0.3.0"
   },
   "devDependencies": {
     "nodemon": "^3.1.7"
