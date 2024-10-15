@@ -12,6 +12,10 @@ import { connectRabbitMQ } from "./config/rabbitmq.js";
 import uid from "tiny-uid";
 import { logMsg } from "./lib/logProducer.js";
 import { checkHealthStatus } from "./services/healthService.js";
+import swaggerUiExpress from "swagger-ui-express";
+import Yaml from "yamljs";
+
+const swaggerDocument = Yaml.load('./swagger.yml')
 
 await connect(DB_name);
 
@@ -24,6 +28,8 @@ app.use((req, res, next) => {
     req.logId = uid(7);
     next();
 });
+
+app.use('/docs', swaggerUiExpress.serve, swaggerUiExpress.setup(swaggerDocument))
 
 // Routes
 app.use("/participants", participants)
